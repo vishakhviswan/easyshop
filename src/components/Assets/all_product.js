@@ -1,14 +1,11 @@
-import km_1 from './km1.png'
-import km_2 from './km2.png'
-import km_3 from './km3.png'
-import km_4 from './km4.png'
-import km_5 from './km5.png'
-import km_6 from './km6.png'
+import km_1 from "./km1.png";
+import km_2 from "./km2.png";
+import km_3 from "./km3.png";
+import km_4 from "./km4.png";
+import km_5 from "./km5.png";
+import km_6 from "./km6.png";
 
-
-
-
-let kerala_product = [
+let all_product = [
   {
     id: 1,
     name: "Kerala Brush Wiper",
@@ -58,4 +55,4 @@ let kerala_product = [
     category: "stoff",
   },
 ];
-export default kerala_product;
+export default all_product;

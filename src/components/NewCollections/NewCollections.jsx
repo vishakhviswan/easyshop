@@ -18,6 +18,7 @@ export const NewCollections = () => {
                       image={item.image}
                       price={item.price}
                       mrp={item.mrp}
+                      category={item.category}
                     />
                   );
               })}

@@ -15,6 +15,7 @@ let kerala_product = [
     image: km_1,
     price: 185,
     mrp: 270,
+    category: "keralamops",
   },
   {
     id: 2,
@@ -22,6 +23,7 @@ let kerala_product = [
     image: km_2,
     price: 145,
     mrp: 235,
+    category: "keralamops",
   },
   {
     id: 3,
@@ -29,6 +31,7 @@ let kerala_product = [
     image: km_3,
     price: 90,
     mrp: 160,
+    category: "keralamops",
   },
   {
     id: 4,
@@ -36,6 +39,7 @@ let kerala_product = [
     image: km_4,
     price: 185,
     mrp: 270,
+    category: "keralamops",
   },
   {
     id: 5,
@@ -43,6 +47,7 @@ let kerala_product = [
     image: km_5,
     price: 145,
     mrp: 235,
+    category: "keralamops",
   },
   {
     id: 6,
@@ -50,6 +55,7 @@ let kerala_product = [
     image: km_6,
     price: 90,
     mrp: 160,
+    category: "stoff",
   },
 ];
 export default kerala_product;

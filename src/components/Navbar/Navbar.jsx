@@ -1,12 +1,27 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./Navbar.css";
 import { FaShoppingCart } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import { Link } from "react-router-dom";
+import { ShopContext } from "../../Context/ShopContext";
+import { AuthContext } from "../../Context/FirebaseContext";
+import { getAuth, signOut } from "firebase/auth";
+
 
 export const Navbar = () => {
   const [menu, setMenu] = useState("all");
+  const { getTotalCartItems, logedIn } = useContext(ShopContext);
   const [count, setCount] = useState(0);
+  const { user } = useContext(AuthContext);
+  const auth = getAuth();
+
+  // const HandleSignout = () => {
+  //   try {
+  //      signOut(auth);
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // };
 
   return (
     <div className="navbar">
@@ -29,7 +44,7 @@ export const Navbar = () => {
             setMenu("kerala");
           }}
         >
-          <Link to="/keralamops" style={{ textDecoration: 'none' }}>
+          <Link to="/keralamops" style={{ textDecoration: "none" }}>
             {" "}
             Kerala Mops{" "}
           </Link>
@@ -47,9 +62,16 @@ export const Navbar = () => {
         </li>
       </ul>
       <div className="nav-login-cart">
-        <Link to="/login">
-          <button>Login</button>
-        </Link>
+        {user ? (
+          <div>
+            <h3>{"Welcome " + user.displayName}</h3>
+            <button className="signOutBtn">signout</button>
+          </div>
+        ) : (
+          <Link to="/login">
+            <button>Login</button>
+          </Link>
+        )}
         <Link to="/cart">
           <IconContext.Provider
             value={{
@@ -61,14 +83,7 @@ export const Navbar = () => {
             <FaShoppingCart />
           </IconContext.Provider>
         </Link>
-        <div
-          onClick={() => {
-            setCount(count + 1);
-          }}
-          className="nav-cart-count"
-        >
-          {count}{" "}
-        </div>
+        <div className="nav-cart-count">{getTotalCartItems()}</div>
       </div>
     </div>
   );

@@ -10,7 +10,7 @@ function Populart() {
           <hr />
           <div className="popular-item">
               {kerala_product.map((item, i) => {
-                  return <Item key={i} id={item.id} name={item.name} image={item.image} price={item.price} mrp={item.mrp} />
+                  return <Item key={i} id={item.id} name={item.name} image={item.image} price={item.price} mrp={item.mrp} category={item.category} />
               })}
           </div>
   
