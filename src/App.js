@@ -15,6 +15,7 @@ import { Navbar } from "./components/Navbar/Navbar";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { AuthContext, FirebaseContext } from "./Context/FirebaseContext";
 import { doc, getDoc } from "firebase/firestore";
+import AdminPage from "./pages/AdminPage";
 
 function App() {
   const auth = getAuth();
@@ -64,6 +65,7 @@ function App() {
           </Route>
           <Route path="/cart" element={<Cart />} />
           <Route path="/login" element={<LoginSignup />} />
+          <Route path="/admin" element={<AdminPage/>} />
         </Routes>
         <Footer />
       </Router>

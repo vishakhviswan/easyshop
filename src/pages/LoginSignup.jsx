@@ -24,42 +24,11 @@ function LoginSignup() {
   const [userName, setUserName] = useState("");
   const [userId, setUserId] = useState("");
   const navigate = useNavigate();
-  const { setLogIn, logIn, setLogedIn } = useContext(ShopContext);
+  const { setLogIn, logIn} = useContext(ShopContext);
   const auth = getAuth();
   const db = getFirestore();
   const [id] = useState();
   
-  // // =====================trial===============
-  // async function handleSignup(e) {
-  //   e.preventDefault();
-  //   await createUserWithEmailAndPassword(auth, email, password)
-  //     .then(async (result) => {
-  //       const userRef = collection(db, "users");
-  //       setDoc(doc(userRef, result.user.uid), {
-  //         id: result.user.uid,
-  //         name: userName,
-  //         email: email
-  //       });
-  //       // await setDoc(doc(db, "user", "abc"), {
-  //       //   name: userName,
-  //       //   email: email,
-  //       // });
-  //       // alert("Signin Succsess" + user);
-  //     }).then((result) => {
-  //       updateProfile(auth.currentUser, { displayName: userName });
-  //       navigate("/login");
-  //       setLogIn(true);
-  //       alert("add Data Succsess" + result);
-  //     })
-  //     .catch((error) => {
-  //       const errorCode = error.code;
-  //       const errorMessage = error.message;
-  //       alert(errorCode, "Message:", errorMessage);
-  //       console.log(errorMessage, errorCode);
-  //       alert(error);
-  //       console.log(error);
-  //     });
-  // }
    const handleSignup = (e) => {
      e.preventDefault();
        createUserWithEmailAndPassword(auth, email, password)
@@ -82,7 +51,7 @@ function LoginSignup() {
            console.log(errorMessage, errorCode);
          })
          .then(() => {
-           navigate("/login");
+           navigate("/");
          });
      
    };
@@ -96,6 +65,7 @@ function LoginSignup() {
       .catch((error) => {
         alert(error);
         console.log(error);
+        navigate("/")
       });
   };
 

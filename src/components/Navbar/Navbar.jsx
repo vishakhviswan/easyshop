@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import "./Navbar.css";
 import { FaShoppingCart } from "react-icons/fa";
 import { IconContext } from "react-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ShopContext } from "../../Context/ShopContext";
 import { AuthContext } from "../../Context/FirebaseContext";
 import { getAuth, signOut } from "firebase/auth";
@@ -14,6 +14,7 @@ export const Navbar = () => {
   const [count, setCount] = useState(0);
   const { user } = useContext(AuthContext);
   const auth = getAuth();
+  const navigate = useNavigate()
 
   // const HandleSignout = () => {
   //   try {
@@ -65,7 +66,11 @@ export const Navbar = () => {
         {user ? (
           <div>
             <h3>{"Welcome " + user.displayName}</h3>
-            <button className="signOutBtn">signout</button>
+            <button className="signOutBtn" onClick={() => {
+              signOut(auth).then(() => {
+                navigate("/")
+              })
+            }}>signout</button>
           </div>
         ) : (
           <Link to="/login">
