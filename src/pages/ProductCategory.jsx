@@ -1,35 +1,63 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Item } from "../components/Item/Item";
 import "./CSS/ProductCategory.css";
 import { ShopContext } from "../Context/ShopContext";
 import { RxDropdownMenu } from "react-icons/rx";
-
+import { collection, getDocs, getFirestore } from "firebase/firestore";
 
 function ProductCategory(props) {
-  const { all_product } = useContext(ShopContext);
+  const [allProducts, setAllProducts] = useState([]);
+  const db = getFirestore();
+
+  // const getTotalCartItems = () => {
+  //   let totalItem = 0;
+  //   for (const item in cartItems) {
+  //     if (cartItems[item] > 0) {
+  //       totalItem += cartItems[item];
+  //     }
+  //   }
+  //   return totalItem;
+  // };
+
+  
+  useEffect(() => {
+    const getProducts = async () => {
+      const productsData = await getDocs(collection(db, "allProduct"));
+      setAllProducts(
+        productsData.docs.map((doc) => ({
+          ...doc.data(),
+        }))
+      );
+      console.log("products", productsData);
+    };
+    getProducts();
+  }, [db]);
+  console.log("hello", allProducts);
+
   return (
     <div className="shop-category">
       <img className="shopCategory-banner" src={props.banner} alt="" />
       <div className="shopCategory-indexSort">
         <p>
-          <span>Showing 1-12</span> out of 36 products
+          <span>Showing 1-12</span> out of {allProducts.length} products
         </p>
         <div className="shopCategory-sort">
           Sort by <RxDropdownMenu className="shopCategory-sort-icon" />
         </div>
       </div>
       <div className="shopcategory-products">
-        {all_product.map((item, i) => {
-          if (props.category === item.category) {
+        {allProducts.map((item, i) => {
+          if (props.manufacture === item.manufacture) {
             return (
               <Item
                 key={i}
                 id={item.id}
-                name={item.name}
+                name={item.productName}
                 image={item.image}
-                price={item.price}
-                mrp={item.mrp}
-                category={item.category}
+                price={item.productPrice}
+                mrp={item.productMrp}
+                category={item.productCategory}
+                isSmall
               />
             );
           } else {

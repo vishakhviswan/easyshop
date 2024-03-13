@@ -1,18 +1,21 @@
 .popular {
+  margin-left: 10px;
+  color: black;
+  padding: 0px;
   width: auto;
-  height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 10px;
-  height: 90vh;
 }
+
 .popular h1 {
+  align-self: center;
   color: #171717;
   font-size: 50px;
   font-weight: 600;
 }
 .popular hr {
+  align-self: center;
   width: 200px;
   height: 6px;
   border-radius: 10px;
@@ -20,6 +23,53 @@
 }
 .popular-item {
   margin-top: 50px;
-  display: flex;
   gap: 30px;
+  display: flex;
+  padding: 20px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+}
+.popular-item::-webkit-scrollbar {
+  display: none;
+}
+
+.arrowIcons {
+  width: 97%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0px;
+  margin: 0px;
+  z-index: 99;
+  position: absolute;
+}
+
+.arrowLeft {
+  display: block;
+  color: black;
+  font-size: 50px;
+  background-color: blue;
+  align-self: self-start;
+  transform: rotate(180deg);
+  background: rgba(0, 0, 0, 0.5);
+  transition: 0.5s ease;
+  cursor: pointer;
+}
+.arrowRight {
+  display: grid;
+  color: black;
+  font-size: 50px;
+  background-color: rgb(173, 29, 50);
+  align-self: self-end;
+  background: rgba(0, 0, 0, 0.5);
+  transition: 0.5s ease;
+  cursor: pointer;
+}
+
+.arrowLeftIcon {
+  height: 100px;
+}
+.arrowRightIcon {
+  height: 100px;
 }

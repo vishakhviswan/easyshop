@@ -50,11 +50,15 @@ const ShopContextProvider = (props) => {
 
   const [logIn, setLogIn] = useState(false)
   const [logedIn, setLogedIn] = useState(false);
-  
+  const [showCategoryModel, setShowCategoryModel] = useState(false);
   
   const contextValue = {
-    logedIn, setLogedIn,
-    logIn, setLogIn,
+    showCategoryModel,
+    setShowCategoryModel,
+    logedIn,
+    setLogedIn,
+    logIn,
+    setLogIn,
     getTotalCartItems,
     getTotalCartAmount,
     all_product,

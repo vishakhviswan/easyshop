@@ -16,6 +16,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { AuthContext, FirebaseContext } from "./Context/FirebaseContext";
 import { doc, getDoc } from "firebase/firestore";
 import AdminPage from "./pages/AdminPage";
+import { ThemeProvider } from "react-bootstrap";
 
 function App() {
   const auth = getAuth();
@@ -40,36 +41,44 @@ function App() {
           }
         }
       });
-    }, [auth, setUser]);
+    }, [auth, setUser,db,setUserDetails]);
  
 
   return (
-    <div>
-      <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
+    
+    <ThemeProvider
+      breakpoints={["xxxl", "xxl", "xl", "lg", "md", "sm", "xs", "xxs"]}
+      minBreakpoint="xxs"
+    >
+      <div>
+        <Router>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
 
-          <Route
-            path="/keralamops"
-            element={
-              <ProductCategory banner={kerala_banner} category="keralamops" />
-            }
-          />
-          <Route
-            path="/stoff"
-            element={<ProductCategory banner={stoff_banner} category="stoff" />}
-          />
-          <Route path="/products" element={<Products />}>
-            <Route path=":productId" element={<Products />} />
-          </Route>
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/login" element={<LoginSignup />} />
-          <Route path="/admin" element={<AdminPage/>} />
-        </Routes>
-        <Footer />
-      </Router>
-    </div>
+            <Route
+              path="/keralamops"
+              element={
+                <ProductCategory banner={kerala_banner} manufacture="KERALAMOPS" />
+              }
+            />
+            <Route
+              path="/stoff"
+              element={
+                <ProductCategory banner={stoff_banner} manufacture="STOFF" />
+              }
+            />
+            <Route path="/products" element={<Products />}>
+              <Route path=":productId" element={<Products />} />
+            </Route>
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/login" element={<LoginSignup />} />
+            <Route path="/admin" element={<AdminPage />} />
+          </Routes>
+          <Footer />
+        </Router>
+      </div>
+    </ThemeProvider>
   );
 }
 

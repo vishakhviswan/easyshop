@@ -10,8 +10,7 @@ import { getAuth, signOut } from "firebase/auth";
 
 export const Navbar = () => {
   const [menu, setMenu] = useState("all");
-  const { getTotalCartItems, logedIn } = useContext(ShopContext);
-  const [count, setCount] = useState(0);
+  const { getTotalCartItems } = useContext(ShopContext);
   const { user } = useContext(AuthContext);
   const auth = getAuth();
   const navigate = useNavigate()

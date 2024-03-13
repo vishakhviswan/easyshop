@@ -8,10 +8,8 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
-  signOut,
 } from "firebase/auth";
 import {
-  addDoc,
   collection,
   doc,
   getFirestore,
@@ -22,7 +20,6 @@ function LoginSignup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userName, setUserName] = useState("");
-  const [userId, setUserId] = useState("");
   const navigate = useNavigate();
   const { setLogIn, logIn} = useContext(ShopContext);
   const auth = getAuth();

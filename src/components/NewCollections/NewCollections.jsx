@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./NewCollections.css";
 // import new_collection from "../Assets/new_collections";
 import { Item } from "../Item/Item";
-import { collection, doc, getDocs, getFirestore } from "firebase/firestore";
+import { collection, getDocs, getFirestore } from "firebase/firestore";
 
 export const NewCollections = () => {
   const [allProducts, setAllProducts] = useState([]);
@@ -36,6 +36,7 @@ console.log("hello", allProducts)
               price={item.productPrice}
               mrp={item.productMrp}
               category={item.productCategory}
+              isSmall
             />
           );
         })}

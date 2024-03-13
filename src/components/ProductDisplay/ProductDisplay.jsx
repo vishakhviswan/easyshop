@@ -12,6 +12,7 @@ export const ProductDisplay = (props) => {
 
   return (
     <div className="productDisplay">
+      
 
       <div className="productDisplay-left">
         <div className="productDisplay-img-list">
