@@ -1,37 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react'
-import './Popular.css'
+import React, { useContext, useEffect, useRef, useState } from "react";
+import "./Popular.css";
 // import kerala_product from '../Assets/KeralaProducts'
 import { Item } from "../Item/Item";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
-import { collection, getDocs, getFirestore } from "firebase/firestore";
+import { QuerySnapshot, collection, getDocs, getFirestore } from "firebase/firestore";
+import { ShopContext } from "../../Context/ShopContext";
 function Populart() {
-  
-    const [allProducts, setAllProducts] = useState([]);
-  const db = getFirestore();
+  const { allProducts } = useContext(ShopContext);
+
   const ref = useRef(null);
   const scroll = (scrollOffset) => {
     ref.current.scrollLeft += scrollOffset;
   };
-  
 
-  const handleScroll=() => {
-    ref.current.scrollIntoView({behavior:'smooth'})
+  const handleScroll = () => {
+    ref.current.scrollIntoView({ behavior: "smooth" });
   };
-
-    useEffect(() => {
-      const getProducts = async () => {
-        const productsData = await getDocs(collection(db, "allProduct"));
-        setAllProducts(
-          productsData.docs.map((doc) => ({
-            ...doc.data(),
-          }))
-          
-        );
-        console.log("products", productsData);
-      };
-      getProducts();
-    }, [db]);
-    console.log("hello", allProducts);
 
 
 
@@ -76,4 +60,4 @@ function Populart() {
   );
 }
 
-export default Populart
+export default Populart;

@@ -53,3 +53,61 @@
     align-items: center;
     justify-content: center;
 }
+@media only screen and (max-width: 768px){
+.ads{
+    height: 25vh;
+    background: linear-gradient(180deg, #fde1ff, #e1ffea22 60%);
+    display: flex;
+}
+.ads-left{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1px;
+    padding-left: 20px;
+    line-height: 1.1;
+}
+.ads-left h2{
+    font-size: 15px;
+    font-weight: 700;
+    color: #090909;
+}
+ .ads-left p{
+    color: #171717;
+    font-size: 20px;
+    font-weight: 700;
+}
+ .ads-hand-icon{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.ads-hand-iconImg{
+    height: 35px;
+    width: 35px;
+}
+    
+ .ads-hand-iconImg:hover{
+    transform: scale(1.025);
+    transform: rotate(-20deg);
+    color: #302f2f;
+}
+.ads-latest-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 140px;
+    height: 25px;
+    border-radius: 75px;
+    margin-top: 15px;
+    background: #ff4141;
+    color: white;
+    font-size: 12px;
+    font-weight: 500;
+}
+.ads-right-img{
+    width: 155px;
+}
+}

@@ -1,13 +1,42 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "./CartItems.css";
-import { ShopContext } from "../../Context/ShopContext";
-
+// import { ShopContext } from "../../Context/ShopContext";
+import toast from "react-hot-toast";
+import { LuMinus } from "react-icons/lu";
+import { LuPlus } from "react-icons/lu";
 import { TbShoppingCartX } from "react-icons/tb";
+import { useDispatch, useSelector } from "react-redux";
+import { decrementQuantity, deleteFromCart, incrementQuantity } from "../../redux/cartSlice";
 
 export const CartItems = () => {
-  const { getTotalCartAmount, all_product, cartItems, removeFromCart } = useContext(ShopContext);
+  // const { getTotalCartAmount, all_product, cartItems, removeFromCart } = useContext(ShopContext);
+
+  const cartItemsList = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+
+  const deleteCart = (item) => {
+    dispatch(deleteFromCart(item));
+    toast.success("Delete cart")
+  };
+  const handleIncrement = (id) => {
+    dispatch(incrementQuantity(id));
+  };
+
+  const handleDecrement = (id) => {
+    dispatch(decrementQuantity(id));
+  };
+const cartItemTotal = cartItemsList
+  .map((item) => item.quantity)
+  .reduce((prevValue, currValue) => prevValue + currValue, 0);
+const cartTotal = cartItemsList
+  .map((item) => item.productPrice * item.quantity)
+  .reduce((prevValue, currValue) => prevValue + currValue, 0);
+
+useEffect(() => {
+  localStorage.setItem("cart", JSON.stringify(cartItemsList));
+}, [cartItemsList]);
+  
   return (
-    
     <div className="cartitems">
       <div className="cartitems-format-main">
         <p>Products</p>
@@ -18,30 +47,29 @@ export const CartItems = () => {
         <p>Remove</p>
       </div>
       <hr />
-      {all_product.map((e) => {
-        if (cartItems[e.id] > 1) {
-          return (
-            <div>
-              <div className="cartitems-format cartitems-format-main">
-                <img src={e.image} alt="" className="cartitems-product-icon" />
-                <p>{e.name}</p>
-                <p>{e.mrp}</p>
-                <button className="cartitems-quantity">
-                  {cartItems[e.id]}
-                </button>
-                <p>${e.mrp * cartItems[e.id]}</p>
-                <TbShoppingCartX
-                  className="cartitems-remove-icon"
-                  onClick={() => {
-                    removeFromCart(e.id);
-                  }}
-                />
+      {cartItemsList.map((item, index) => {
+        const { id, productName, productPrice, image, category, quantity } =
+          item;
+        return (
+          <div>
+            <div className="cartitems-format cartitems-format-main">
+              <img src={image} alt="" className="cartitems-product-icon" />
+              <p>{productName}</p>
+              <p>{productPrice}</p>
+              <div>
+                <LuMinus onClick={() => handleDecrement(id)} />
+                <button className="cartitems-quantity">{quantity}</button>
+                <LuPlus onClick={() => handleIncrement(id)} />
               </div>
-              <hr />
+              <p>{quantity * productPrice}</p>
+              <TbShoppingCartX
+                className="cartitems-remove-icon"
+                onClick={() => deleteCart(item)}
+              />
             </div>
-          );
-        }
-        return null;
+            <hr />
+          </div>
+        );
       })}
       <div className="cartitems-down">
         <div className="cartitems-total">
@@ -49,7 +77,7 @@ export const CartItems = () => {
           <div>
             <div className="cartitems-total-item">
               <p>Subtotal</p>
-              <p>${getTotalCartAmount()}</p>
+              <p>${cartTotal}</p>
             </div>
             <hr />
             <div className="cartitems-total-item">
@@ -59,7 +87,7 @@ export const CartItems = () => {
             <hr />
             <div className="cartitems-total-item">
               <h3>Total</h3>
-              <h3>${getTotalCartAmount()}</h3>
+              <h3>${ cartTotal }</h3>
             </div>
             <button>PROCEED TO CKECKOUT</button>
           </div>

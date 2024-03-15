@@ -1,0 +1,21 @@
+.productdelails-btn-div{
+    color: rgb(232, 105, 126);
+    padding-left: 30px;
+    padding-right: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+}
+.productdelails-btn-div button{
+    background: rgb(236, 221, 223);
+    border: 1px solid rgb(210, 93, 113);
+    border-radius: 10px;
+}
+.productdelails-btn-div h1{
+    font-size: 20px;
+    font-weight: 500;
+}
+.productdetails-table{
+    margin: 25px 30px 0px 30px;
+}

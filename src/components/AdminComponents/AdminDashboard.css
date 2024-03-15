@@ -1,0 +1,44 @@
+.admin-dash-title,.admin-details,.admin-dash-box{
+    background: rgb(236, 221, 223);
+    color: rgb(183, 45, 68);
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    display: flex; 
+    border: 1px solid rgb(210, 93, 113);
+    margin-top: 25px;
+
+}
+.admin-dash-title{
+height: 4em;
+}
+.admin-details{
+height: 13em;
+flex-direction: column;
+}
+.admin-dash-title h1{
+    font-weight: 700;
+    font-size: 25px;
+}
+.admin-details-text{
+align-items: center;
+justify-content: center;
+display: flex;
+flex-direction: column;
+}
+.admin-details-text span{
+    font-weight: 600;
+    font-size: 16px;
+}
+.admin-details-text h3{
+    font-size: 16px;
+}
+.admin-dash-box{
+    flex-direction: column;
+}
+.admin-dash-box p{
+font-weight: 600;
+}
+.admin-dash-icon{
+    font-size: 45px;
+}

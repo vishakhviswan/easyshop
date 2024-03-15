@@ -25,7 +25,7 @@ function Ads() {
                 size: "105px",
               }}
             >
-              <PiHandWaving />
+              <PiHandWaving/>
             </IconContext.Provider>
           </div>
           <p>collections</p>
@@ -36,7 +36,7 @@ function Ads() {
           </div>
         </div>
         <div className="ads-right">
-          <img src={ads_img} alt="ads-img" />
+          <img className="ads-right-img" src={ads_img} alt="ads-img" />
         </div>
       </div>
     </ThemeProvider>
