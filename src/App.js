@@ -16,9 +16,10 @@ import { AuthContext, FirebaseContext } from "./Context/FirebaseContext";
 import { doc, getDoc } from "firebase/firestore";
 import AdminPage from "./pages/AdminPage";
 import { ThemeProvider } from "react-bootstrap";
-import { Trial } from "./pages/Trial";
 import { Toaster } from "react-hot-toast";
 import Header from "./components/Header/Header";
+import { AddProductPage } from "./pages/Admin/AddProductPage";
+import { UpdateProductPage } from "./pages/Admin/UpdateProductPage";
 
 function App() {
   const auth = getAuth();
@@ -53,7 +54,7 @@ function App() {
       <div>
         <Toaster />
         <Router>
-          <Header/>
+          <Header />
           <Routes>
             <Route path="/" element={<Home />} />
 
@@ -78,7 +79,8 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/login" element={<LoginSignup />} />
             <Route path="/admin" element={<AdminPage />} />
-            <Route path="/trial" element={<Trial />} />
+            <Route path="/addproduct" element={<AddProductPage />} />
+            <Route path="/updateproduct" element={<UpdateProductPage/> } />
           </Routes>
           <Footer />
         </Router>

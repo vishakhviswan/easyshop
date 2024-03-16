@@ -6,8 +6,13 @@
     align-items: center;
     display: flex; 
     border: 1px solid rgb(210, 93, 113);
+    
     margin-top: 25px;
 
+}
+.admin-details:hover,.admin-dash-box:hover{
+    background: rgb(240,210,230);
+    cursor: pointer;
 }
 .admin-dash-title{
 height: 4em;

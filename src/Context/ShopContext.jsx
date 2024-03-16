@@ -15,7 +15,8 @@ export const ShopContext = createContext(null);
 
 const ShopContextProvider = (props) => {
 
-const [allProducts, setAllProducts] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
+  const [users, setUsers] = useState([])
 const db = getFirestore();
 
 useEffect(() => {
@@ -32,64 +33,80 @@ useEffect(() => {
   getProducts();
 }, [db]);
 
-const getDefaultCart = () => {
-  let cart = {};
-  for (let index = 0; index < allProducts.length + 1; index++) {
-    cart[index] = 0;
-  }
-  return cart;
-};
-
-
-
-
-    const [cartItems, setCartItems] = useState(getDefaultCart());
-    
-    
-    const addToCart = (itemId) => {
-        setCartItems((prev)=>({...prev,[itemId]:prev[itemId]+1}))
-    }
-    const removeFromCart = (itemId) => {
-      setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] -1 }));
+  useEffect(() => {
+    const getUsers = async () => {
+      const usersData = await getDocs(collection(db, "users"));
+      setUsers(
+        usersData.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }))
+      );
     };
+    getUsers();
+  }, [db]);
 
-  const getTotalCartAmount = () => {
-    let totalAmount = 0;
-    for (const item in cartItems) {
-      if (cartItems[item] > 0) {
-        let itemInfo = allProducts.find((product) => product.id === Number(item))
-        totalAmount += itemInfo.mrp * cartItems[item];
+
+// const getDefaultCart = () => {
+//   let cart = {};
+//   for (let index = 0; index < allProducts.length + 1; index++) {
+//     cart[index] = 0;
+//   }
+//   return cart;
+// };
+
+
+
+
+  //   const [cartItems, setCartItems] = useState(getDefaultCart());
+    
+    
+  //   const addToCart = (itemId) => {
+  //       setCartItems((prev)=>({...prev,[itemId]:prev[itemId]+1}))
+  //   }
+  //   const removeFromCart = (itemId) => {
+  //     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] -1 }));
+  //   };
+
+  // const getTotalCartAmount = () => {
+  //   let totalAmount = 0;
+  //   for (const item in cartItems) {
+  //     if (cartItems[item] > 0) {
+  //       let itemInfo = allProducts.find((product) => product.id === Number(item))
+  //       totalAmount += itemInfo.mrp * cartItems[item];
         
-      }
+  //     }
       
-    }
-    return totalAmount;
-  };
+  //   }
+  //   return totalAmount;
+  // };
 
  
 
-  const getTotalCartItems = () => {
-    let totalItem = 0;
-    for (const item in cartItems)
-    {
-      if (cartItems[item] > 0)
-      {
-        totalItem += cartItems[item];
-        }
-    }
-    return totalItem;
-  }
+  // const getTotalCartItems = () => {
+  //   let totalItem = 0;
+  //   for (const item in cartItems)
+  //   {
+  //     if (cartItems[item] > 0)
+  //     {
+  //       totalItem += cartItems[item];
+  //       }
+  //   }
+  //   return totalItem;
+  // }
 
   const [logIn, setLogIn] = useState(false)
   const [logedIn, setLogedIn] = useState(false);
   const [showCategoryModel, setShowCategoryModel] = useState(false);
-
+const [loading, setLoading]=useState(false)
 
   
   
 
   
   const contextValue = {
+    loading, setLoading,
+    users,
     allProducts,
     showCategoryModel,
     setShowCategoryModel,
@@ -97,12 +114,7 @@ const getDefaultCart = () => {
     setLogedIn,
     logIn,
     setLogIn,
-    getTotalCartItems,
-    getTotalCartAmount,
     all_product,
-    cartItems,
-    addToCart,
-    removeFromCart,
   };
     return (
         <ShopContext.Provider value={contextValue}>

@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./ProductDetails.css";
 import { Col, Row, Table } from "react-bootstrap";
+import { ShopContext } from "../../Context/ShopContext";
+import { useNavigate } from "react-router";
 
 export const ProductDetails = () => {
+  const { allProducts } = useContext(ShopContext);
+  const navigate = useNavigate()
+
   return (
     <div>
       <Row>
@@ -11,7 +16,7 @@ export const ProductDetails = () => {
             {/* text  */}
             <h1>All Product</h1>
             {/* Add Product Button  */}
-            <button>Add Product</button>
+            <button onClick={()=> navigate('/addproduct')}>Add Product</button>
           </div>
         </Col>
       </Row>
@@ -20,30 +25,69 @@ export const ProductDetails = () => {
           <thead>
             <tr>
               <th>#</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Username</th>
+              <th>Image</th>
+              <th>Product</th>
+              <th>Manufacturer</th>
+              <th>Category</th>
+              <th>Qty</th>
+              <th>UOM</th>
+              <th>Price</th>
+              <th>MRP</th>
+              <th>Action</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
+            {allProducts.map((item, i) => {
+              const {
+                productName,
+                manufacture,
+                image,
+                productCategory,
+                quantity,
+                uom,
+                productPrice,
+                productMrp,
+              } = item;
+              return (
+                <tr>
+                  <td>{i + 1}</td>
+                  <td>
+                    <img src={image} alt="" style={{ height: "50px" }} />{" "}
+                  </td>
+                  <td>{productName}</td>
+                  <td>{manufacture}</td>
+                  <td>{productCategory}</td>
+                  <td>{quantity}</td>
+                  <td>{uom}</td>
+                  <td>{productPrice} </td>
+                  <td>{productMrp}</td>
+                  <td>
+                    <button
+                      onClick={() => navigate("/updateproduct")}
+                      style={{
+                        border: "none",
+                        background: "none",
+                        color: "blue",
+                      }}
+                    >
+                      Edit
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      style={{
+                        border: "none",
+                        background: "none",
+                        color: "red",
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </Table>
       </div>

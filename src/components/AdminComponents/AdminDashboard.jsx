@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { Col, Container, Row, ThemeProvider } from 'react-bootstrap';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import './AdminDashboard.css'
@@ -6,8 +6,29 @@ import { CiBoxes } from "react-icons/ci";
 import { CiBoxList } from "react-icons/ci";
 import { CiUser } from "react-icons/ci";
 import { ProductDetails } from './ProductDetails';
+import toast from 'react-hot-toast';
+import OrderDetails from './OrderDetails';
+import UserDetails from './UserDetails';
+import { ShopContext } from '../../Context/ShopContext';
+
 
 export const AdminDashboard = () => {
+  const [tableSelection, setTableSelection] = useState()
+  const { users, allProducts } = useContext(ShopContext);
+
+
+  var SelectedTable;
+    if (tableSelection === "productDetails") {
+      SelectedTable = <ProductDetails />;
+    } else if (tableSelection === "userDetails") {
+      SelectedTable = <UserDetails />;
+    } else if (tableSelection === "orderDetails") {
+      SelectedTable = <OrderDetails />;
+    } else {
+      <p>Select Any One</p>
+    }
+  
+  
 
     return (
       <div>
@@ -48,17 +69,24 @@ export const AdminDashboard = () => {
             <Row>
               {/* Total Products */}
               <Col xs={12} md={4}>
-                <div className="admin-dash-box">
+                <div
+                  className="admin-dash-box"
+                  onClick={() =>{ setTableSelection("productDetails")
+                  }}
+                >
                   <div className="admin-dash-icon">
                     <CiBoxes />
                   </div>
-                  <h2>10</h2>
+                  <h2>{allProducts.length }</h2>
                   <p>Total Products</p>
                 </div>
               </Col>
               {/* Total Orders  */}
               <Col>
-                <div className="admin-dash-box">
+                <div
+                  className="admin-dash-box"
+                  onClick={() => setTableSelection("orderDetails")}
+                >
                   <div className="admin-dash-icon">
                     <CiBoxList />
                   </div>
@@ -68,17 +96,20 @@ export const AdminDashboard = () => {
               </Col>
               {/* Total User  */}
               <Col>
-                <div className="admin-dash-box">
+                <div
+                  className="admin-dash-box"
+                  onClick={() => setTableSelection("userDetails")}
+                >
                   <div className="admin-dash-icon">
                     <CiUser />
                   </div>
-                  <h2>10</h2>
-                  <p>Total Order</p>
+                  <h2>{users.length }</h2>
+                  <p>Total Users</p>
                 </div>
               </Col>
             </Row>
-                </Container>
-                <ProductDetails/>
+          </Container>
+          {SelectedTable}
         </ThemeProvider>
       </div>
     );
