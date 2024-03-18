@@ -53,7 +53,7 @@ export const AddProducts = () => {
     const AddCategoryRef = collection(db, "Categories");
     setDoc(doc(AddCategoryRef), {
       category: categoryName,
-    })
+    }) 
       .then(() => {
         setalert(false);
         setShowCategoryModel(false);

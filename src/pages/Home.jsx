@@ -4,7 +4,6 @@ import Populart from "../components/Popular/Populart";
 import { Offers } from "../components/Offers/Offers";
 import { NewCollections } from "../components/NewCollections/NewCollections";
 import { NewsLetter } from "../components/NewsLetter/NewsLetter";
-import { Loader } from "../components/Loader/Loader";
 
 function Home() {
   return (
@@ -14,7 +13,6 @@ function Home() {
       <Offers />
       <NewCollections />
       <NewsLetter />
-      <Loader/>
     </div>
   );
 }

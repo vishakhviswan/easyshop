@@ -1,7 +1,7 @@
-import React from 'react'
-import { Spinner } from 'react-bootstrap';
+import React from "react";
+import { Spinner } from "react-bootstrap";
 
-export const Loader = () => {
+function Loader() {
   return (
     <div
       style={{
@@ -17,3 +17,5 @@ export const Loader = () => {
     </div>
   );
 }
+
+export default Loader;

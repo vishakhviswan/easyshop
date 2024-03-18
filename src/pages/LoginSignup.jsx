@@ -17,6 +17,7 @@ import {
   setDoc,
 } from "firebase/firestore";
 import toast from "react-hot-toast";
+// import { Loader } from "../components/Loader/Loader";
 import { Loader } from "../components/Loader/Loader";
 
 function LoginSignup() {
@@ -96,7 +97,7 @@ function LoginSignup() {
 
   return (
     <div className="loginsignup">
-      {loading && <Loader />}
+      {loading && <Loader/> }
       <div className="loginsignup-container">
         <h1>{logIn ? "Login" : "Sign Up"}</h1>
         <div className="loginsignup-field">
