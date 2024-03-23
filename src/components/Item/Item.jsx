@@ -1,7 +1,7 @@
-import React from 'react'
-import './Item.css'
-import { Link } from 'react-router-dom';
-import { Card } from 'react-bootstrap';
+import React from "react";
+import "./Item.css";
+import { Link } from "react-router-dom";
+import { Card } from "react-bootstrap";
 
 export const Item = (props) => {
   return (
@@ -16,13 +16,23 @@ export const Item = (props) => {
         <div className="item-mrp">${props.mrp}</div>
       </div> */}
 
-      <Card style={props.isSmall ? { width: "12rem" } : { width: "15rem" }}>
+      <Card
+        style={
+          props.isSmall
+            ? { width: "12rem", height: "18rem" }
+            : { width: "15rem", height: "18rem" }
+        }
+      >
         <Link to={`/products/${props.id}`}>
-          <Card.Img variant="top" src={props.image} />
-          </Link>
+          <Card.Img
+            variant="top"
+            src={props.image}
+            style={props.isSmall ? { width: "12rem" } : { width: "15rem" }}
+          />
+        </Link>
         <Card.Body>
           <Card.Title style={{ fontSize: "15px" }}>{props.name}</Card.Title>
-          <Card.Text className="item-prices" >
+          <Card.Text className="item-prices">
             <div className="item-price">PRICE ₹{props.price}</div>
             <div className="item-mrp">MRP ₹{props.mrp}</div>
           </Card.Text>
@@ -30,4 +40,4 @@ export const Item = (props) => {
       </Card>
     </div>
   );
-}
+};

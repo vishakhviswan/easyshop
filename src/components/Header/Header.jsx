@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Container, Nav, NavDropdown, Navbar } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Context/FirebaseContext";
@@ -7,39 +7,22 @@ import { FaShoppingCart } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import { useSelector } from "react-redux";
 import "./Header.css";
-import { collection, getDocs, getFirestore } from "firebase/firestore";
+
+import { ShopContext } from "../../Context/ShopContext";
 
 function Header() {
   const { user } = useContext(AuthContext);
+  const { categoriesList, categorySelection, setCategorySelection } =
+    useContext(ShopContext);
   const navigate = useNavigate();
   const auth = getAuth();
-  // Cart Items
-  const cartItems = useSelector((state) => state.cart);
-const [categories, setCategories] = useState([])
-//   const categories = [
-//     "Brooms",
-//     "Plastic Brooms",
-//     "Garden Tools",
-//     "Fancy Brushes",
-//     "Dust Pan",
-//     "Mugs",
-//     "Buckets",
-//   ];
-  const [categorySelection, setCategorySelection] = useState("");
-  const db = getFirestore();
 
-  useEffect(() => {
-    const getCategories = async () => {
-      const categoryData = await getDocs(collection(db, "Categories"));
-      setCategories(
-        categoryData.docs.map((doc) => ({
-          ...doc.data(),
-        }))
-        );
-        console.log("products", categoryData);
-    };
-    getCategories();
-  }, [db]);
+  const cartItems = useSelector((state) => state.cart);
+
+
+  
+
+
 
   return (
     <div>
@@ -83,11 +66,13 @@ const [categories, setCategories] = useState([])
                 title={categorySelection ? categorySelection : "Categories"}
                 id="navbarScrollingDropdown"
               >
-                {categories.map((item, i) => {
+                {categoriesList.map((item, i) => {
+                  
                   return (
                     <NavDropdown.Item value={item.category}>
                       <Link
                         value={item.category}
+                        to={`/${item.category}`}
                         onClick={(e) => {
                           setCategorySelection(item.category);
                         }}

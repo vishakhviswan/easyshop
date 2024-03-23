@@ -7,10 +7,13 @@ import { LuPlus } from "react-icons/lu";
 import { TbShoppingCartX } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
 import { decrementQuantity, deleteFromCart, incrementQuantity } from "../../redux/cartSlice";
+import BuyNowModal from "../AdminComponents/Modals/BuyNowModal";
+import { AuthContext } from "../../Context/FirebaseContext";
+import { Navigate } from "react-router";
 
 export const CartItems = () => {
   // const { getTotalCartAmount, all_product, cartItems, removeFromCart } = useContext(ShopContext);
-
+const {user} = useContext(AuthContext)
   const cartItemsList = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
@@ -37,8 +40,8 @@ useEffect(() => {
 }, [cartItemsList]);
   
   return (
-    <div className="cartitems">
-      <div className="cartitems-format-main">
+    <div className="cartitems" >
+      <div className="cartitems-format-main" >
         <p>Products</p>
         <p>Title</p>
         <p>Price</p>
@@ -87,9 +90,10 @@ useEffect(() => {
             <hr />
             <div className="cartitems-total-item">
               <h3>Total</h3>
-              <h3>${ cartTotal }</h3>
+              <h3>${cartTotal}</h3>
             </div>
-            <button>PROCEED TO CKECKOUT</button>
+            {/* <button>PROCEED TO CKECKOUT</button> */}
+            { user ? <BuyNowModal /> : <Navigate to={"/login"} />}
           </div>
         </div>
         <div className="cartitems-promocode">
@@ -100,6 +104,7 @@ useEffect(() => {
           </div>
         </div>
       </div>
+      <div className="madalDiv"></div>
     </div>
   );
 };

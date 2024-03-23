@@ -1,29 +1,15 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Item } from "../components/Item/Item";
 import "./CSS/ProductCategory.css";
 import { ShopContext } from "../Context/ShopContext";
 import { RxDropdownMenu } from "react-icons/rx";
-import { collection, getDocs, getFirestore } from "firebase/firestore";
-
-function ProductCategory(props) {
-  const [allProducts, setAllProducts] = useState([]);
-  const db = getFirestore();
 
 
-  
-  useEffect(() => {
-    const getProducts = async () => {
-      const productsData = await getDocs(collection(db, "allProduct"));
-      setAllProducts(
-        productsData.docs.map((doc) => ({
-          ...doc.data(),
-        }))
-      );
-      console.log("products", productsData);
-    };
-    getProducts();
-  }, [db]);
-  console.log("hello", allProducts);
+function ProductBrand(props) {
+
+const {allProducts} = useContext(ShopContext)
+
+
 
   return (
     <div className="shop-category">
@@ -38,8 +24,7 @@ function ProductCategory(props) {
       </div>
       <div className="shopcategory-products">
         {allProducts.map((item, i) => {
-          // item.category
-          if (props.category === item.productCategory) {
+          if (props.manufacture === item.manufacture) {
             return (
               <Item
                 key={i}
@@ -62,4 +47,4 @@ function ProductCategory(props) {
   );
 }
 
-export default ProductCategory;
+export default ProductBrand;

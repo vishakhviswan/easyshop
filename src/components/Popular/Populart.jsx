@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext,  useRef} from "react";
 import "./Popular.css";
 // import kerala_product from '../Assets/KeralaProducts'
 import { Item } from "../Item/Item";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
-import { QuerySnapshot, collection, getDocs, getFirestore } from "firebase/firestore";
 import { ShopContext } from "../../Context/ShopContext";
 function Populart() {
   const { allProducts } = useContext(ShopContext);

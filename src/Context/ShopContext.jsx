@@ -1,25 +1,25 @@
 import React, { createContext, useEffect, useState } from "react";
 import all_product from "../components/Assets/all_product";
-import { collection, getDoc, getDocs, getFirestore } from "firebase/firestore";
+import {
+  Timestamp,
+  collection,
+  
+  doc,
+  
+  getDoc,
+  
+  getDocs,
+  getFirestore,
+} from "firebase/firestore";
+
 
 export const ShopContext = createContext(null);
 
- 
-
-
-
-
- 
- 
-
-
 const ShopContextProvider = (props) => {
-
   const [allProducts, setAllProducts] = useState([]);
-  const [users, setUsers] = useState([])
-const db = getFirestore();
+  const [users, setUsers] = useState([]);
+  const db = getFirestore();
 
-useEffect(() => {
   const getProducts = async () => {
     const productsData = await getDocs(collection(db, "allProduct"));
     setAllProducts(
@@ -30,8 +30,9 @@ useEffect(() => {
     );
     console.log("products", productsData);
   };
-  getProducts();
-}, [db]);
+  useEffect(() => {
+    getProducts();
+  }, []);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -46,66 +47,95 @@ useEffect(() => {
     getUsers();
   }, [db]);
 
+  // ==============Get Category & Manufactures ===============
+  const [categoriesList, setCategoriesList] = useState([]);
+  const [manufaturesList, setManufaturesList] = useState([]);
+  useEffect(() => {
+    getCategoriesAndManufactures();
+  }, []);
 
-// const getDefaultCart = () => {
-//   let cart = {};
-//   for (let index = 0; index < allProducts.length + 1; index++) {
-//     cart[index] = 0;
-//   }
-//   return cart;
-// };
+  const getCategoriesAndManufactures = async () => {
+    const categoryData = await getDocs(collection(db, "Categories"));
+    const manufactureData = await getDocs(collection(db, "Manufacture"));
+    setCategoriesList(
+      categoryData.docs.map((doc) => ({
+        ...doc.data(),
+      }))
+    );
+    setManufaturesList(
+      manufactureData.docs.map((doc) => ({
+        ...doc.data(),
+      }))
+    );
+  };
 
+  // ========Update Product ==========
+  // product state
+  const [product, setProduct] = useState({
+    productName: "",
+    productMrp: "",
+    productPrice: "",
+    productCategory: "",
+    description: "",
+    image: "",
+    manufacture: "",
+    quantity: "1",
+    actualQty: "",
+    unit: "",
+    time: Timestamp.now(),
+    date: new Date().toLocaleString("en-US", {
+      month: "short",
+      day: "2-digit",
+      year: "numeric",
+    }),
+  });
 
+  // Get Single Product Function
+  const getSingleProductFunction = async (id) => {
+    setLoading(true);
+    try {
+      const productTemp = await getDoc(doc(db, "allProduct", id));
+      //   console.log(product.data())
+      const product = productTemp.data();
+      setProduct({
+        productName: product?.productName,
+        productMrp: product?.productMrp,
+        productPrice: product?.productPrice,
+        productCategory: product?.category,
+        description: product?.description,
+        image: product?.url,
+        manufacture: product?.manufacture,
+        quantity: "1",
+        actualQty: product?.quantity,
+        unit: product?.unit,
+        time: product?.time,
+        date: product?.date,
+      });
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
 
-
-  //   const [cartItems, setCartItems] = useState(getDefaultCart());
-    
-    
-  //   const addToCart = (itemId) => {
-  //       setCartItems((prev)=>({...prev,[itemId]:prev[itemId]+1}))
-  //   }
-  //   const removeFromCart = (itemId) => {
-  //     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] -1 }));
-  //   };
-
-  // const getTotalCartAmount = () => {
-  //   let totalAmount = 0;
-  //   for (const item in cartItems) {
-  //     if (cartItems[item] > 0) {
-  //       let itemInfo = allProducts.find((product) => product.id === Number(item))
-  //       totalAmount += itemInfo.mrp * cartItems[item];
-        
-  //     }
-      
-  //   }
-  //   return totalAmount;
-  // };
-
- 
-
-  // const getTotalCartItems = () => {
-  //   let totalItem = 0;
-  //   for (const item in cartItems)
-  //   {
-  //     if (cartItems[item] > 0)
-  //     {
-  //       totalItem += cartItems[item];
-  //       }
-  //   }
-  //   return totalItem;
-  // }
-
-  const [logIn, setLogIn] = useState(false)
+  const [logIn, setLogIn] = useState(false);
   const [logedIn, setLogedIn] = useState(false);
   const [showCategoryModel, setShowCategoryModel] = useState(false);
-const [loading, setLoading]=useState(false)
+  const [loading, setLoading] = useState(false);
+  const [categorySelection, setCategorySelection] = useState("");
+  
 
-  
-  
-
-  
   const contextValue = {
-    loading, setLoading,
+    getSingleProductFunction,
+    product,
+    getProducts,
+    categorySelection,
+    setCategorySelection,
+    getCategoriesAndManufactures,
+    categoriesList,
+    manufaturesList,
+    loading,
+    setLoading,
     users,
     allProducts,
     showCategoryModel,
@@ -116,10 +146,10 @@ const [loading, setLoading]=useState(false)
     setLogIn,
     all_product,
   };
-    return (
-        <ShopContext.Provider value={contextValue}>
-            {props.children}
-        </ShopContext.Provider>
-    )
-}
+  return (
+    <ShopContext.Provider value={contextValue}>
+      {props.children}
+    </ShopContext.Provider>
+  );
+};
 export default ShopContextProvider;

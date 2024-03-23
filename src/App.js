@@ -20,16 +20,22 @@ import { Toaster } from "react-hot-toast";
 import Header from "./components/Header/Header";
 import { AddProductPage } from "./pages/Admin/AddProductPage";
 import { UpdateProductPage } from "./pages/Admin/UpdateProductPage";
+import { LoaderPage } from "./components/Loader/LoaderPage";
+import { ShopContext } from "./Context/ShopContext";
+import ProductBrand from "./pages/productBrand";
 
 function App() {
   const auth = getAuth();
   const { setUser, setUserDetails } = useContext(AuthContext);
+  const { loading, categoriesList, categorySelection, setCategorySelection } =
+    useContext(ShopContext);
 
   const { db } = useContext(FirebaseContext);
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
       setUser(user);
+      localStorage.setItem("user", JSON.stringify(user));
       if (user) {
         console.log("userApp", user.uid);
         const userRef = doc(db, "users", user.uid);
@@ -46,12 +52,15 @@ function App() {
     });
   }, [auth, setUser, db, setUserDetails]);
 
+  const category = categoriesList.map((item) => item.category);
+
   return (
     <ThemeProvider
       breakpoints={["xxxl", "xxl", "xl", "lg", "md", "sm", "xs", "xxs"]}
       minBreakpoint="xxs"
     >
       <div>
+        {loading && <LoaderPage />}
         <Toaster />
         <Router>
           <Header />
@@ -61,18 +70,25 @@ function App() {
             <Route
               path="/keralamops"
               element={
-                <ProductCategory
-                  banner={kerala_banner}
-                  manufacture="KERALAMOPS"
-                />
+                <ProductBrand banner={kerala_banner} manufacture="KERALAMOPS" />
               }
             />
             <Route
               path="/stoff"
               element={
-                <ProductCategory banner={stoff_banner} manufacture="STOFF" />
+                <ProductBrand banner={stoff_banner} manufacture="STOFF" />
               }
             />
+              <Route
+                path={`/${categorySelection}`}
+                element={
+                  <ProductCategory
+                    banner={stoff_banner}
+                    category={categorySelection}
+                  />
+                }
+              />
+
             <Route path="/products" element={<Products />}>
               <Route path=":productId" element={<Products />} />
             </Route>
@@ -80,8 +96,9 @@ function App() {
             <Route path="/login" element={<LoginSignup />} />
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/addproduct" element={<AddProductPage />} />
-            <Route path="/updateproduct" element={<UpdateProductPage/> } />
+            <Route path="/updateproduct/:id" element={<UpdateProductPage />} />
           </Routes>
+          <h1>{categorySelection}</h1>
           <Footer />
         </Router>
       </div>

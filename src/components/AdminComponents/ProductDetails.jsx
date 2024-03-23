@@ -3,10 +3,34 @@ import "./ProductDetails.css";
 import { Col, Row, Table } from "react-bootstrap";
 import { ShopContext } from "../../Context/ShopContext";
 import { useNavigate } from "react-router";
+import { deleteDoc, doc, getFirestore } from "firebase/firestore";
+import toast from "react-hot-toast";
 
 export const ProductDetails = () => {
-  const { allProducts } = useContext(ShopContext);
+  const {
+    allProducts,
+    setLoading,
+    getProducts,
+    getSingleProductFunction,
+  } = useContext(ShopContext);
   const navigate = useNavigate()
+  const db = getFirestore();
+  
+  
+  
+
+      const deleteProduct = async (id) => {
+        setLoading(true);
+        try {
+          await deleteDoc(doc(db, "allProduct", id));
+          toast.success("Product Deleted successfully");
+          getProducts();
+          setLoading(false);
+        } catch (error) {
+          console.log(error);
+          setLoading(false);
+        }
+      };
 
   return (
     <div>
@@ -44,10 +68,11 @@ export const ProductDetails = () => {
                 manufacture,
                 image,
                 productCategory,
-                quantity,
-                uom,
+                actualQty,
+                unit,
                 productPrice,
                 productMrp,
+                id,
               } = item;
               return (
                 <tr>
@@ -58,13 +83,16 @@ export const ProductDetails = () => {
                   <td>{productName}</td>
                   <td>{manufacture}</td>
                   <td>{productCategory}</td>
-                  <td>{quantity}</td>
-                  <td>{uom}</td>
+                  <td>{actualQty}</td>
+                  <td>{unit}</td>
                   <td>{productPrice} </td>
                   <td>{productMrp}</td>
                   <td>
                     <button
-                      onClick={() => navigate("/updateproduct")}
+                      onClick={() => {navigate(`/updateproduct/${id}`)
+                         getSingleProductFunction(id)
+                      }}
+                      
                       style={{
                         border: "none",
                         background: "none",
@@ -81,6 +109,7 @@ export const ProductDetails = () => {
                         background: "none",
                         color: "red",
                       }}
+                      onClick={() => deleteProduct(id)}
                     >
                       Delete
                     </button>

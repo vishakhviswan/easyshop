@@ -17,8 +17,6 @@ import {
   setDoc,
 } from "firebase/firestore";
 import toast from "react-hot-toast";
-// import { Loader } from "../components/Loader/Loader";
-import { Loader } from "../components/Loader/Loader";
 
 function LoginSignup() {
   const [email, setEmail] = useState("");
@@ -70,7 +68,7 @@ function LoginSignup() {
   };
 
   const HandleLogin = () => {
-    if (userName === "" || email === "") {
+    if (password === "" || email === "") {
       return toast.error("All fields are required");
     }
     setLoading(true);
@@ -78,11 +76,11 @@ function LoginSignup() {
       .then((user) => {
         navigate("/");
         console.log("user" + user);
+        setLoading(false);
       })
       .catch((error) => {
         alert(error);
         console.log(error);
-        navigate("/");
         setLoading(false);
       });
   };
@@ -97,7 +95,6 @@ function LoginSignup() {
 
   return (
     <div className="loginsignup">
-      {loading && <Loader/> }
       <div className="loginsignup-container">
         <h1>{logIn ? "Login" : "Sign Up"}</h1>
         <div className="loginsignup-field">
