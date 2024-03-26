@@ -47,3 +47,40 @@
     justify-content: flex-end;
     padding-top: 50px;
 }
+@media only screen and (max-width: 768px){
+   .offers{
+    width: 95%;
+    height: 30vh;
+    padding: 0px 30px;
+    margin-bottom: 50px;
+}
+
+.offers-left h1{
+    font-size: 22px;
+}
+.offers-left p{
+   font-size: 13px;
+}
+.offers-left button{
+    width: 150px;
+    height: 35px;
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 20px;
+}
+.offers-left button:hover{
+    background-color: #b92828;
+    width: 160px;
+    height: 45px;
+}
+.offers-right{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-top: 5px;
+} 
+.offers-right img{
+    width: 200px;
+}
+}

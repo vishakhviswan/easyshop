@@ -17,17 +17,19 @@ export const Item = (props) => {
       </div> */}
 
       <Card
-        style={
-          props.isSmall
-            ? { width: "12rem", height: "18rem" }
-            : { width: "15rem", height: "18rem" }
-        }
+        className={props.isSmall ? "smallCard" : "largeCard"}
+        // style={
+        //   props.isSmall
+        //     ? { width: "12rem", height: "18rem" }
+        //     : { width: "15rem", height: "18rem" }
+        // }
       >
         <Link to={`/products/${props.id}`}>
           <Card.Img
+            className={props.isSmall ? "smallImg" : "largeImg"}
             variant="top"
             src={props.image}
-            style={props.isSmall ? { width: "12rem" } : { width: "15rem" }}
+            // style={props.isSmall ? { width: "12rem" } : { width: "15rem" }}
           />
         </Link>
         <Card.Body>

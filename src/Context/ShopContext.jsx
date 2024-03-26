@@ -3,15 +3,11 @@ import all_product from "../components/Assets/all_product";
 import {
   Timestamp,
   collection,
-  
   doc,
-  
   getDoc,
-  
   getDocs,
   getFirestore,
 } from "firebase/firestore";
-
 
 export const ShopContext = createContext(null);
 
@@ -98,18 +94,23 @@ const ShopContextProvider = (props) => {
       //   console.log(product.data())
       const product = productTemp.data();
       setProduct({
+        id: id,
         productName: product?.productName,
         productMrp: product?.productMrp,
         productPrice: product?.productPrice,
-        productCategory: product?.category,
+        productCategory: product?.productCategory,
         description: product?.description,
-        image: product?.url,
+        image: product?.image,
         manufacture: product?.manufacture,
         quantity: "1",
-        actualQty: product?.quantity,
+        actualQty: product?.actualQty,
         unit: product?.unit,
-        time: product?.time,
-        date: product?.date,
+        time: Timestamp.now(),
+        date: new Date().toLocaleString("en-US", {
+          month: "short",
+          day: "2-digit",
+          year: "numeric",
+        }),
       });
       setLoading(false);
     } catch (error) {
@@ -123,11 +124,11 @@ const ShopContextProvider = (props) => {
   const [showCategoryModel, setShowCategoryModel] = useState(false);
   const [loading, setLoading] = useState(false);
   const [categorySelection, setCategorySelection] = useState("");
-  
 
   const contextValue = {
     getSingleProductFunction,
     product,
+    setProduct,
     getProducts,
     categorySelection,
     setCategorySelection,

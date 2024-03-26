@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Button,
   Col,
@@ -10,19 +10,16 @@ import {
 } from "react-bootstrap";
 import toast from "react-hot-toast";
 import {
-  Timestamp,
-  addDoc,
   collection,
   doc,
-  getDoc,
-  getDocs,
   getFirestore,
   setDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { ShopContext } from "../../Context/ShopContext";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../Firebase/config";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 
 export const UpdateProductPage = () => {
   const [hideNewCategory, setHideNewCategory] = useState(true);
@@ -40,6 +37,8 @@ export const UpdateProductPage = () => {
     categoriesList,
     manufaturesList,
     product,
+    setProduct,
+    getProducts,
   } = useContext(ShopContext);
   const navigate = useNavigate();
 
@@ -47,12 +46,12 @@ export const UpdateProductPage = () => {
   const [category, setCategory] = useState("");
   const [manufacture, setManufacture] = useState("");
   // const [productName, setProductName] = useState("");
-  const [quantity, setQuantity] = useState("");
+  // const [quantity, setQuantity] = useState("");
   const [image, setImage] = useState("");
-  const [unit, setUnit] = useState("");
-  const [productMrp, setProductMrp] = useState("");
-  const [productPrice, setProductPrice] = useState("");
-  const [description, setDescription] = useState("");
+  // const [unit, setUnit] = useState("");
+  // const [productMrp, setProductMrp] = useState("");
+  // const [productPrice, setProductPrice] = useState("");
+  // const [description, setDescription] = useState("");
 
   const handleCreateNew = (e) => {
     if (e.target.value === "Create New Category") {
@@ -62,7 +61,7 @@ export const UpdateProductPage = () => {
       toast.error("Create New Category");
       setHideNewCategory(false);
       setHideForm(true);
-      setCategory(e.target.value);
+      setProduct({ ...product, productCategory: e.target.value });
     } else if (e.target.value === "Create New Manufacture") {
       setModalTitle("Create Manufacture");
       setModalLabel("Manufacture");
@@ -70,7 +69,7 @@ export const UpdateProductPage = () => {
       toast.error("Create New Manufacture");
       setHideNewCategory(false);
       setHideForm(true);
-      setManufacture(e.target.value);
+      setProduct({ ...product, manufacture: e.target.value });
     } else {
       // setCategory(e.target.value);
       setHideNewCategory(true);
@@ -154,6 +153,31 @@ export const UpdateProductPage = () => {
   //   });
   // };
 
+  const updateProduct = async () => {
+    setLoading(true);
+    try {
+      toast.success("img");
+      const imageRef = await ref(storage, `images/${image.name}`);
+      uploadBytes(imageRef, image);
+      getDownloadURL(imageRef).then(async (url) => {
+        setProduct({ ...product, image: url });
+        try {
+          toast.success("data base");
+          await updateDoc(doc(db, "allProduct", product.id), product);
+          toast.success("Product Updated successfully");
+          getProducts();
+          setLoading(false);
+          navigate("/admin");
+        } catch (error) {
+          console.log(error);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
   return (
     <div>
       <Container>
@@ -185,7 +209,7 @@ export const UpdateProductPage = () => {
             >
               <h3>Update Product</h3>
             </div>
-
+            {/* ===========Product Name=========== */}
             <FloatingLabel
               controlId="floatingInput"
               label="Product Name"
@@ -193,9 +217,14 @@ export const UpdateProductPage = () => {
             >
               <Form.Control
                 type="text"
-                value={product.productName}
                 placeholder="Product Name"
-                // onChange={(e) => setProductName(e.target.value)}
+                value={product.productName}
+                onChange={(e) => {
+                  setProduct({
+                    ...product,
+                    productName: e.target.value,
+                  });
+                }}
               />
             </FloatingLabel>
             {/* ===========Quantity=========== */}
@@ -210,10 +239,18 @@ export const UpdateProductPage = () => {
                   <Form.Control
                     type="number"
                     placeholder="Stock Quantity"
-                    onChange={(e) => setQuantity(e.target.value)}
+                    value={product.actualQty}
+                    onChange={(e) => {
+                      setProduct({
+                        ...product,
+                        actualQty: e.target.value,
+                      });
+                    }}
                   />
                 </FloatingLabel>
               </Col>
+              {/* ===========Unit=========== */}
+
               <Col>
                 <FloatingLabel
                   controlId="floatingInput"
@@ -223,8 +260,13 @@ export const UpdateProductPage = () => {
                   <Form.Select
                     style={{ fontSize: "15px" }}
                     size="lg"
-                    value={unit}
-                    onChange={(e) => setUnit(e.target.value)}
+                    value={product.unit}
+                    onChange={(e) => {
+                      setProduct({
+                        ...product,
+                        unit: e.target.value,
+                      });
+                    }}
                   >
                     <option>Select One..</option>
                     <option>KGS - Kilograms</option>
@@ -247,7 +289,13 @@ export const UpdateProductPage = () => {
                   <Form.Control
                     type="number"
                     placeholder="Max Retail Price"
-                    onChange={(e) => setProductMrp(e.target.value)}
+                    value={product.productMrp}
+                    onChange={(e) => {
+                      setProduct({
+                        ...product,
+                        productMrp: e.target.value,
+                      });
+                    }}
                   />
                 </FloatingLabel>
               </Col>
@@ -261,7 +309,7 @@ export const UpdateProductPage = () => {
                   <Form.Control
                     type="text"
                     placeholder="Per"
-                    value={unit}
+                    value={product.unit}
                     disabled
                   />
                 </FloatingLabel>
@@ -279,7 +327,13 @@ export const UpdateProductPage = () => {
                   <Form.Control
                     type="number"
                     placeholder="Price"
-                    onChange={(e) => setProductPrice(e.target.value)}
+                    value={product.productPrice}
+                    onChange={(e) => {
+                      setProduct({
+                        ...product,
+                        productPrice: e.target.value,
+                      });
+                    }}
                   />
                 </FloatingLabel>
               </Col>
@@ -292,7 +346,7 @@ export const UpdateProductPage = () => {
                   <Form.Control
                     type="text"
                     placeholder="Per"
-                    value={unit}
+                    value={product.unit}
                     disabled
                   />
                 </FloatingLabel>
@@ -307,10 +361,13 @@ export const UpdateProductPage = () => {
               <Form.Select
                 style={{ fontSize: "15px" }}
                 size="lg"
-                value={category}
+                value={product.productCategory}
                 onChange={(e) => {
                   handleCreateNew(e);
-                  setCategory(e.target.value);
+                  setProduct({
+                    ...product,
+                    productCategory: e.target.value,
+                  });
                 }}
               >
                 <option>Select One..</option>
@@ -330,10 +387,13 @@ export const UpdateProductPage = () => {
               <Form.Select
                 style={{ fontSize: "15px" }}
                 size="lg"
-                value={manufacture}
+                value={product.manufacture}
                 onChange={(e) => {
                   handleCreateNew(e);
-                  setManufacture(e.target.value);
+                  setProduct({
+                    ...product,
+                    manufacture: e.target.value,
+                  });
                 }}
               >
                 <option>Select One..</option>
@@ -355,7 +415,13 @@ export const UpdateProductPage = () => {
                 as="textarea"
                 rows={3}
                 placeholder="Description"
-                onChange={(e) => setDescription(e.target.value)}
+                value={product.description}
+                onChange={(e) => {
+                  setProduct({
+                    ...product,
+                    description: e.target.value,
+                  });
+                }}
               />
             </FloatingLabel>
 
@@ -364,8 +430,13 @@ export const UpdateProductPage = () => {
               <Form.Control
                 type="file"
                 size="lg"
+                // value={product.image}
                 onChange={(e) => {
                   setImage(e.target.files[0]);
+                  setProduct({
+                    ...product,
+                    image: e.target.files[0],
+                  });
                 }}
               />
             </Form.Group>
@@ -386,7 +457,7 @@ export const UpdateProductPage = () => {
                 alt="Posts"
                 width="200px"
                 height="300px"
-                src={image ? URL.createObjectURL(image) : "Upload Image"}
+                src={image ? URL.createObjectURL(image) : product.image}
               ></img>
             </div>
             <div
@@ -397,11 +468,8 @@ export const UpdateProductPage = () => {
                 justifyContent: "center",
               }}
             >
-              <Button
-                className="uploadBtn"
-                // onClick={() => handleSubmit()}
-              >
-                upload and Submit
+              <Button className="uploadBtn" onClick={() => updateProduct()}>
+                updateProduct
               </Button>
             </div>
           </Form>
@@ -434,10 +502,16 @@ export const UpdateProductPage = () => {
                       onChange={(e) => {
                         if (modalTitle === "Create Category") {
                           setNewCategory(e.target.value);
-                          setCategory(e.target.value);
+                          setProduct({
+                            ...product,
+                            productCategory: e.target.value,
+                          });
                         } else if (modalTitle === "Create Manufacture") {
                           setNewManufacture(e.target.value);
-                          setManufacture(e.target.value);
+                          setProduct({
+                            ...product,
+                            manufacture: e.target.value,
+                          });
                         }
                       }}
                     />

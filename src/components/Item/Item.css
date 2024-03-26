@@ -26,3 +26,25 @@
   height: 200px;
   width: auto;
 }
+ .smallCard{
+    width: 12rem;
+    height: 18rem;
+  }
+  .largeCard{
+    width: 15rem;
+    height: 18rem;
+  }
+@media only screen and (max-width: 768px){
+  .smallCard{
+    width: 11rem;
+  }
+  .largeCard{
+    width: 13rem;
+  } 
+  .smallImg{
+    width: 11rem;
+  }
+  .largeImg{
+    width: 13rem;
+  }
+}
