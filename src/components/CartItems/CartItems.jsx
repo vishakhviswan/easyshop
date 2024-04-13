@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./CartItems.css";
 // import { ShopContext } from "../../Context/ShopContext";
 import toast from "react-hot-toast";
@@ -6,21 +6,32 @@ import { LuMinus } from "react-icons/lu";
 import { LuPlus } from "react-icons/lu";
 import { TbShoppingCartX } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
-import { decrementQuantity, deleteFromCart, incrementQuantity } from "../../redux/cartSlice";
+import {
+  decrementQuantity,
+  deleteFromCart,
+  incrementQuantity,
+  removeAllCart,
+} from "../../redux/cartSlice";
 import BuyNowModal from "../AdminComponents/Modals/BuyNowModal";
 import { AuthContext } from "../../Context/FirebaseContext";
 import { Navigate } from "react-router";
+import {
+  Timestamp,
+  addDoc,
+  collection,
+  getFirestore,
+} from "firebase/firestore";
 
 export const CartItems = () => {
-  // const { getTotalCartAmount, all_product, cartItems, removeFromCart } = useContext(ShopContext);
-const {user} = useContext(AuthContext)
+  const { user } = useContext(AuthContext);
   const cartItemsList = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
   const deleteCart = (item) => {
     dispatch(deleteFromCart(item));
-    toast.success("Delete cart")
+    toast.success(item.productName + "Delete from cart");
   };
+ 
   const handleIncrement = (id) => {
     dispatch(incrementQuantity(id));
   };
@@ -28,20 +39,84 @@ const {user} = useContext(AuthContext)
   const handleDecrement = (id) => {
     dispatch(decrementQuantity(id));
   };
-const cartItemTotal = cartItemsList
-  .map((item) => item.quantity)
-  .reduce((prevValue, currValue) => prevValue + currValue, 0);
-const cartTotal = cartItemsList
-  .map((item) => item.productPrice * item.quantity)
-  .reduce((prevValue, currValue) => prevValue + currValue, 0);
+  // const cartItemTotal = cartItemsList
+  //   .map((item) => item.quantity)
+  //   .reduce((prevValue, currValue) => prevValue + currValue, 0);
+  const cartTotal = cartItemsList
+    .map((item) => item.productPrice * item.quantity)
+    .reduce((prevValue, currValue) => prevValue + currValue, 0);
 
-useEffect(() => {
-  localStorage.setItem("cart", JSON.stringify(cartItemsList));
-}, [cartItemsList]);
-  
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cartItemsList));
+  }, [cartItemsList]);
+
+  // Buy Now Function
+
+  const db = getFirestore();
+  const [addressInfo, setAddressInfo] = useState({
+    name: "",
+    email: "",
+    mobile: "",
+    addressLine1: "",
+    addressLine2: "",
+    city: "",
+    state: "",
+    pin: "",
+    time: Timestamp.now(),
+    date: new Date().toLocaleString("en-US", {
+      month: "short",
+      day: "2-digit",
+      year: "numeric",
+    }),
+  });
+
+  const buyNowFunction = () => {
+    // validation
+    if (
+      addressInfo.name === "" ||
+      addressInfo.address === "" ||
+      addressInfo.pin === "" ||
+      addressInfo.mobile === ""
+    ) {
+      return toast.error("All Fields are required"), window.location.reload();
+    }
+
+    // Order Info
+    const orderInfo = {
+      cartItemsList,
+      addressInfo,
+      email: user.email,
+      userid: user.uid,
+      status: "confirmed",
+      time: Timestamp.now(),
+      date: new Date().toLocaleString("en-US", {
+        month: "short",
+        day: "2-digit",
+        year: "numeric",
+      }),
+    };
+    try {
+      const orderRef = collection(db, "order");
+      addDoc(orderRef, orderInfo);
+      setAddressInfo({
+        name: "",
+        email: "",
+        mobile: "",
+        addressLine1: "",
+        addressLine2: "",
+        city: "",
+        state: "",
+        pin: "",
+      });
+      toast.success("Order Placed Successfull");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <div className="cartitems" >
-      <div className="cartitems-format-main" >
+    <div className="cartitems">
+      <div className="cartitems-format-main">
         <p>Products</p>
         <p>Title</p>
         <p>Price</p>
@@ -93,7 +168,15 @@ useEffect(() => {
               <h3>${cartTotal}</h3>
             </div>
             {/* <button>PROCEED TO CKECKOUT</button> */}
-            { user ? <BuyNowModal /> : <Navigate to={"/login"} />}
+            {user ? (
+              <BuyNowModal
+                addressInfo={addressInfo}
+                setAddressInfo={setAddressInfo}
+                buyNowFunction={buyNowFunction}
+              />
+            ) : (
+              <Navigate to={"/login"} />
+            )}
           </div>
         </div>
         <div className="cartitems-promocode">

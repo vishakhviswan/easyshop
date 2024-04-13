@@ -1,26 +1,23 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import "./ProductDisplay.css";
-
 import { FaRegStar } from "react-icons/fa"; //plain
 import { FaStar } from "react-icons/fa"; //filled
 import { FaStarHalfAlt } from "react-icons/fa"; //half
-import { ShopContext } from "../../Context/ShopContext";
-import { useParams } from "react-router";
 import { addToCart, deleteFromCart } from "../../redux/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import { Button } from "react-bootstrap";
 
-export const ProductDisplay = (props) => {
-  const { product } = props;
+export const ProductDisplay = (props) => { 
+  var { product } = props;
   // const { addToCart} = useContext(ShopContext);
-  const { productId } = useParams();
   const cartItems = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
   const addCart = (item) => {
     dispatch(addToCart(item));
     toast.success("Add to cart");
+    product = null
     // alert("added")
   };
 
@@ -77,6 +74,7 @@ export const ProductDisplay = (props) => {
           </div>
         </div>
         {cartItems.some((p) => p.id === product.id) ? (
+          
           <Button
             onClick={() => {
               deleteCart(product);

@@ -113,46 +113,7 @@ export const UpdateProductPage = () => {
       });
   };
 
-  // const handleSubmit = async () => {
-  //   setLoading(true);
-  //   const imageRef = await ref(storage, `images/${image.name}`);
-  //   uploadBytes(imageRef, image);
-  //   getDownloadURL(imageRef).then((url) => {
-  //     const AddProductRef = collection(db, "allProduct");
-  //     setDoc(doc(AddProductRef), {
-  //       productName: productName,
-  //       productMrp: productMrp,
-  //       productPrice: productPrice,
-  //       productCategory: category,
-  //       description: description,
-  //       image: url,
-  //       manufacture: manufacture,
-  //       quantity: "1",
-  //       actualQty: quantity,
-  //       unit: unit,
-  //     })
-  //       .then(() => {
-  //         addDoc(collection(db, "Stock Items"), {
-  //           productName: productName,
-  //           productMrp: productMrp,
-  //           productPrice: productPrice,
-  //           productCategory: category,
-  //           description: description,
-  //           image: url,
-  //           manufacture: manufacture,
-  //           quantity: "1",
-  //           actualQty: quantity,
-  //           unit: unit,
-  //         });
-  //       })
-  //       .then(() => {
-  //         toast.success(productName + "Added Successful");
-  //         navigate("/");
-  //         setLoading(false);
-  //       });
-  //   });
-  // };
-
+ 
   const updateProduct = async () => {
     setLoading(true);
     try {

@@ -67,7 +67,6 @@ function Header() {
                 id="navbarScrollingDropdown"
               >
                 {categoriesList.map((item, i) => {
-                  
                   return (
                     <NavDropdown.Item value={item.category}>
                       <Link
@@ -89,6 +88,14 @@ function Header() {
                 <NavDropdown.Divider />
                 <NavDropdown.Item>Something else here</NavDropdown.Item>
               </NavDropdown>
+              <Nav.Link>
+                <Link
+                  to="/user-dashboard"
+                  style={{ textDecoration: "none", color: "GrayText" }}
+                >
+                Account
+                </Link>
+              </Nav.Link>
             </Nav>
             <div className="nav-login-cart">
               {user ? (

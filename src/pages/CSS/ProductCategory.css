@@ -43,4 +43,43 @@
 .shopCategory-loadmore:hover{
 color: #525252;
 }
+@media only screen and (max-width: 768px) {
+   .shopCategory-banner{
+    margin: 10px auto;
+    width: 95%;
+}
+.shopCategory-indexSort{
+    margin: 0px 10px;
+}
+.shopCategory-sort{
+    justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    padding: 8px 8px;
+    border-radius: 30px;
+    width: 100px;
+   height: 30px;
+   align-items: center;
 
+}
+.shopCategory-sort-icon{
+      font-size: 20px;
+}
+.shopCategory-indexSort  p {
+    font-weight: 600;
+    font-size: 15px;
+}
+.shopcategory-products{
+    margin: 10px 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 5px;
+}
+.shopCategory-loadmore{
+    margin: 150px auto;
+    width: 200px;
+    height: 50px;
+    border-radius: 40px;
+
+}
+}

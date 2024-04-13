@@ -26,6 +26,7 @@ export const Item = (props) => {
       >
         <Link to={`/products/${props.id}`}>
           <Card.Img
+            onClick={()=>{ window.scrollTo(0, 0) }}
             className={props.isSmall ? "smallImg" : "largeImg"}
             variant="top"
             src={props.image}

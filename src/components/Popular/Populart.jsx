@@ -4,7 +4,8 @@ import "./Popular.css";
 import { Item } from "../Item/Item";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
 import { ShopContext } from "../../Context/ShopContext";
-import { ThemeProvider } from "react-bootstrap";
+
+
 function Populart() {
   const { allProducts } = useContext(ShopContext);
 
@@ -13,9 +14,6 @@ function Populart() {
     ref.current.scrollLeft += scrollOffset;
   };
 
-  const handleScroll = () => {
-    ref.current.scrollIntoView({ behavior: "smooth" });
-  };
 
 
 

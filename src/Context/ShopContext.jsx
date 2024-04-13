@@ -7,6 +7,9 @@ import {
   getDoc,
   getDocs,
   getFirestore,
+  onSnapshot,
+  orderBy,
+  query,
 } from "firebase/firestore";
 
 export const ShopContext = createContext(null);
@@ -16,6 +19,9 @@ const ShopContextProvider = (props) => {
   const [users, setUsers] = useState([]);
   const db = getFirestore();
 
+  // ==============================================
+  //                           Get All Product Function
+  // ==============================================
   const getProducts = async () => {
     const productsData = await getDocs(collection(db, "allProduct"));
     setAllProducts(
@@ -24,11 +30,7 @@ const ShopContextProvider = (props) => {
         id: doc.id,
       }))
     );
-    console.log("products", productsData);
   };
-  useEffect(() => {
-    getProducts();
-  }, []);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -119,6 +121,35 @@ const ShopContextProvider = (props) => {
     }
   };
 
+  // ==============================================
+  //                           Get All Order Function
+  // ==============================================
+const [getAllOrder, setGetAllOrder] = useState([]);
+  const getAllOrderFunction = async () => {
+    setLoading(true);
+    try {
+      const q = query(collection(db, "order"), orderBy("time"));
+      const data = onSnapshot(q, (QuerySnapshot) => {
+        let orderArray = [];
+        QuerySnapshot.forEach((doc) => {
+          orderArray.push({ ...doc.data(), id: doc.id });
+        });
+        setGetAllOrder(orderArray);
+        console.log("order" + orderArray);
+        setLoading(false);
+      });
+      return () => data;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getProducts();
+    getAllOrderFunction();
+  }, []);
+
   const [logIn, setLogIn] = useState(false);
   const [logedIn, setLogedIn] = useState(false);
   const [showCategoryModel, setShowCategoryModel] = useState(false);
@@ -126,6 +157,7 @@ const ShopContextProvider = (props) => {
   const [categorySelection, setCategorySelection] = useState("");
 
   const contextValue = {
+    getAllOrder,
     getSingleProductFunction,
     product,
     setProduct,

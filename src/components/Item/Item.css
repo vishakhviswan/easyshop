@@ -1,8 +1,11 @@
 .item {
   padding: 5px;
   width: max-content;
+ 
 }
-
+.card-body{
+  height: 6.5rem;
+}
 .item-prices {
   display: flex;
   gap: 20px;
@@ -23,28 +26,34 @@
   transition: 0.6s;
 }
 .item img {
-  height: 200px;
+  height: 155px;
   width: auto;
+  justify-self: center;
+  padding: 3px;
 }
- .smallCard{
-    width: 12rem;
-    height: 18rem;
+.smallCard {
+  width: 10rem;
+  height: 18rem;
+}
+.largeCard {
+  width: 15rem;
+  height: 18rem;
+}
+@media only screen and (max-width: 768px) {
+  .smallCard {
+    width: 10rem;
   }
-  .largeCard{
-    width: 15rem;
-    height: 18rem;
+  .largeCard {
+    width: 13rem;
   }
-@media only screen and (max-width: 768px){
-  .smallCard{
+  .smallImg {
     width: 11rem;
   }
-  .largeCard{
+  .largeImg {
     width: 13rem;
-  } 
-  .smallImg{
-    width: 11rem;
   }
-  .largeImg{
-    width: 13rem;
+  .item img {
+    height: 150px;
+    width: auto;
   }
 }

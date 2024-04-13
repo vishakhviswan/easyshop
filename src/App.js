@@ -23,27 +23,29 @@ import { UpdateProductPage } from "./pages/Admin/UpdateProductPage";
 import { LoaderPage } from "./components/Loader/LoaderPage";
 import { ShopContext } from "./Context/ShopContext";
 import ProductBrand from "./pages/productBrand";
+import { UserDashboard } from "./pages/user/UserDashboard";
 
 function App() {
   const auth = getAuth();
   const { setUser, setUserDetails } = useContext(AuthContext);
-  const { loading, categoriesList, categorySelection, setCategorySelection } =
+  const { loading, categorySelection, setLoading } =
     useContext(ShopContext);
 
   const { db } = useContext(FirebaseContext);
 
   useEffect(() => {
+    setLoading(true)
     onAuthStateChanged(auth, async (user) => {
       setUser(user);
       localStorage.setItem("user", JSON.stringify(user));
       if (user) {
         console.log("userApp", user.uid);
         const userRef = doc(db, "users", user.uid);
-
         const docSnap = await getDoc(userRef);
         if (docSnap.exists()) {
           setUserDetails(docSnap.data());
           console.log("Document data:", docSnap.data());
+          setLoading(false)
         } else {
           // doc.data() will be undefined in this case
           console.log("No such document!");
@@ -51,8 +53,6 @@ function App() {
       }
     });
   }, [auth, setUser, db, setUserDetails]);
-
-  const category = categoriesList.map((item) => item.category);
 
   return (
     <ThemeProvider
@@ -79,26 +79,26 @@ function App() {
                 <ProductBrand banner={stoff_banner} manufacture="STOFF" />
               }
             />
-              <Route
-                path={`/${categorySelection}`}
-                element={
-                  <ProductCategory
-                    banner={stoff_banner}
-                    category={categorySelection}
-                  />
-                }
-              />
+            <Route
+              path={`/${categorySelection}`}
+              element={
+                <ProductCategory
+                  banner={stoff_banner}
+                  category={categorySelection}
+                />
+              }
+            />
 
             <Route path="/products" element={<Products />}>
               <Route path=":productId" element={<Products />} />
             </Route>
             <Route path="/cart" element={<Cart />} />
             <Route path="/login" element={<LoginSignup />} />
+            <Route path="/user-dashboard" element={<UserDashboard />} />
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/addproduct" element={<AddProductPage />} />
             <Route path="/updateproduct/:id" element={<UpdateProductPage />} />
           </Routes>
-          <h1>{categorySelection}</h1>
           <Footer />
         </Router>
       </div>

@@ -1,0 +1,82 @@
+.user-dash-title,
+.user-details {
+  background: rgb(228, 243, 228);
+  color: rgb(9, 57, 9);
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  border: 1px solid rgb(185, 243, 185);
+
+  margin-top: 25px;
+}
+
+.user-orderdetails-left,
+.user-orderdetails-right {
+  background: rgb(228, 243, 228);
+  border: 1px solid rgb(185, 243, 185);
+  border-radius: 10px;
+  color: rgb(9, 57, 9);
+  padding: 15px;
+  height: 12rem;
+  line-height: 3px;
+  margin-bottom: 10px;
+}
+
+.user-orderdetails-left:hover,
+.user-orderdetails-right:hover {
+  background: rgb(192, 244, 192);
+  cursor: pointer;
+}
+.user-dash-title {
+  height: 4em;
+}
+.user-details {
+  height: 13em;
+  flex-direction: column;
+}
+.user-dash-title h1 {
+  font-weight: 700;
+  font-size: 25px;
+}
+.user-details-text {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
+.user-details-text span {
+  font-weight: 600;
+  font-size: 16px;
+}
+.user-details-text h3 {
+  font-size: 16px;
+}
+/* .admin-dash-box{
+    flex-direction: column;
+}
+.admin-dash-box p{
+font-weight: 600;
+}
+.admin-dash-icon{
+    font-size: 45px;
+} */
+.user-productImg {
+  background: white;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  padding: 10px;
+  height: 10rem;
+}
+.user-orderdetails-left li {
+  list-style: none;
+}
+.user-orderdetails-left h3 {
+  font-size: 12px;
+  font-weight: 600;
+}
+.user-orderdetails-left p {
+  font-size: 12px;
+}
