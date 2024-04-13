@@ -28,13 +28,12 @@ import { UserDashboard } from "./pages/user/UserDashboard";
 function App() {
   const auth = getAuth();
   const { setUser, setUserDetails } = useContext(AuthContext);
-  const { loading, categorySelection, setLoading } =
-    useContext(ShopContext);
+  const { loading, categorySelection, setLoading } = useContext(ShopContext);
 
   const { db } = useContext(FirebaseContext);
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     onAuthStateChanged(auth, async (user) => {
       setUser(user);
       localStorage.setItem("user", JSON.stringify(user));
@@ -45,7 +44,7 @@ function App() {
         if (docSnap.exists()) {
           setUserDetails(docSnap.data());
           console.log("Document data:", docSnap.data());
-          setLoading(false)
+          setLoading(false);
         } else {
           // doc.data() will be undefined in this case
           console.log("No such document!");
@@ -65,10 +64,10 @@ function App() {
         <Router>
           <Header />
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/easyshop" element={<Home />} />
 
             <Route
-              path="/keralamops"
+              path="/easyshop/keralamops"
               element={
                 <ProductBrand banner={kerala_banner} manufacture="KERALAMOPS" />
               }
