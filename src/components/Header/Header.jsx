@@ -40,7 +40,7 @@ function Header() {
             >
               <Nav.Link>
                 <Link
-                  to="/"
+                  to="/easyshop"
                   style={{ textDecoration: "none", color: "GrayText" }}
                 >
                   Home
