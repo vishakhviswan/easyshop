@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/easyshop/static/css/main.df3a2de2.css",
+    "main.js": "/easyshop/static/js/main.5b0eaaec.js",
+    "static/media/km5.png": "/easyshop/static/media/km5.ff518729320f85191762.png",
+    "static/media/km4.png": "/easyshop/static/media/km4.1a19e0be35297139d965.png",
+    "static/media/km6.png": "/easyshop/static/media/km6.9a101ec4d12fd6b5344a.png",
+    "static/media/km2.png": "/easyshop/static/media/km2.7927a5a869f7c91aa19d.png",
+    "static/media/km3.png": "/easyshop/static/media/km3.44c25681e1c827ea6feb.png",
+    "static/media/km1.png": "/easyshop/static/media/km1.b3917953a2bbf8ca4656.png",
+    "static/media/PNG image.png": "/easyshop/static/media/PNG image.2725f96b213567f30618.png",
+    "static/media/ads-2.png": "/easyshop/static/media/ads-2.2725f96b213567f30618.png",
+    "static/media/stoff-banner.webp": "/easyshop/static/media/stoff-banner.84f965aff4e19b1048d2.webp",
+    "index.html": "/easyshop/index.html",
+    "main.df3a2de2.css.map": "/easyshop/static/css/main.df3a2de2.css.map",
+    "main.5b0eaaec.js.map": "/easyshop/static/js/main.5b0eaaec.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.df3a2de2.css",
+    "static/js/main.5b0eaaec.js"
+  ]
+}
